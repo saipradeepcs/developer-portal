@@ -4,7 +4,7 @@ Optimized for SQLite with proper indexing and performance considerations
 """
 
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, Dict, Any, List
 import uuid
 import json
@@ -72,7 +72,7 @@ class Service(db.Model):
         if include_status:
             # Use cached status if recent (within 5 minutes), otherwise simulate
             if (self.last_health_check and 
-                (datetime.utcnow() - self.last_health_check).seconds < 300):
+                (datetime.now(datetime.timezone.utc) - self.last_health_check).seconds < 300):
                 result['status'] = self.health_status
             else:
                 # Simulate health check (30% chance of being unhealthy)
@@ -115,16 +115,16 @@ class Service(db.Model):
     def update_deployment(self, version: str) -> None:
         """Update service deployment information"""
         self.deployed_version = version
-        self.deployed_at = datetime.utcnow()
-        self.updated_at = datetime.utcnow()
+        self.deployed_at = datetime.now(datetime.timezone.utc)
+        self.updated_at = datetime.now(datetime.timezone.utc)
         # Assume successful deployment means healthy service
         self.health_status = 'healthy'
-        self.last_health_check = datetime.utcnow()
+        self.last_health_check = datetime.now(datetime.timezone.utc)
     
     def update_health_status(self, status: str) -> None:
         """Update cached health status"""
         self.health_status = status
-        self.last_health_check = datetime.utcnow()
+        self.last_health_check = datetime.now(datetime.timezone.utc)
     
     @classmethod
     def get_owners(cls) -> List[str]:
@@ -206,7 +206,7 @@ class ServiceEvent(db.Model):
         """Get activity summary for the last N days"""
         from sqlalchemy import func
         
-        cutoff_date = datetime.utcnow() - datetime.timedelta(days=days)
+        cutoff_date = datetime.now(datetime.timezone.utc) - datetime.timedelta(days=days)
         
         result = db.session.query(
             cls.event_type,
