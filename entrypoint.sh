@@ -76,5 +76,5 @@ echo "  Database exists: $([ -f "$DB_PATH" ] && echo "YES" || echo "NO")"
 echo "  Database size: $([ -f "$DB_PATH" ] && du -h "$DB_PATH" 2>/dev/null || echo "N/A")"
 
 # Start the Flask application
-echo "🌐 Starting web server on port ${PORT:-5000}..."
+echo "🌐 Starting web server on port ${PORT:-5001}..."
 exec python app.py

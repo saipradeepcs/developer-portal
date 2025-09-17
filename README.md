@@ -1,4 +1,4 @@
-# 🛠️ Zello Developer Portal
+# 🛠️ Internal Developer Portal
 
 A self-service platform engineering tool that improves developer productivity by providing service discovery, management, and deployment capabilities.
 
@@ -162,7 +162,7 @@ curl "http://localhost:5001/api/services/payment-service/next-steps"
 The portal is built with:
 - **Backend**: Flask (Python) with RESTful APIs
 - **Frontend**: Vanilla JavaScript with responsive CSS
-- **Storage**: In-memory (easily replaceable with database)
+- **Storage**: sqllite
 - **Health Simulation**: Random status generation (30% unhealthy rate)
 - **Containerization**: Docker with health checks
 
@@ -203,7 +203,7 @@ The application starts with sample services for demonstration:
 
 For production deployment, consider:
 
-1. **Database Integration**: Replace in-memory storage with PostgreSQL/MongoDB
+1. **Database Integration**: Replace sqllite storage with PostgreSQL/MongoDB
 2. **Authentication**: Add OAuth/SAML integration
 3. **Real Health Checks**: Integrate with actual monitoring systems
 4. **Service Discovery**: Connect to Kubernetes/Consul service mesh
@@ -219,20 +219,23 @@ For production deployment, consider:
 developer-portal/
 ├── app.py                    # Main Flask application (with database)
 ├── models.py                 # SQLAlchemy database models  
+├── init_db.py.py             # seeds and Initializes database
+├── entrypoint.sh             # entrypoint script for developer portal
 ├── requirements.txt          # Python dependencies (includes SQLAlchemy)
-├── developer_portal.db       # SQLite database (auto-created)
-├── Dockerfile               # Container configuration
-├── docker-compose.yml       # Docker Compose setup
-├── Makefile                 # Development commands
-├── README.md               # This documentation
-├── templates/              # HTML templates
-│   ├── base.html           # Base template layout
-│   └── index.html          # Main page template
-└── static/                 # Static assets
+├── Dockerfile                # Container configuration
+├── docker-compose.yml        # Docker Compose setup
+├── Makefile                  # Development commands
+├── README.md                 # This documentation
+├── templates/                # HTML templates
+│   ├── base.html             # Base template layout
+│   └── index.html            # Main page template
+|   ├── analytics.html        # analytics template layout
+│   └── services.html         # services page template  
+└── static/                   # Static assets
     ├── css/
-    │   └── styles.css      # Application styles
+    │   └── styles.css        # Application styles
     └── js/
-        └── main.js         # Frontend JavaScript
+        └── main.js           # Frontend JavaScript
 ```
 
 ## 🗄️ **Database Features**
@@ -262,5 +265,5 @@ MIT License - feel free to use this as a starting point for your own developer p
 
 ---
 
-**Built for Zello Platform Engineering** 🎯  
+**Built for Platform Engineering** 🎯  
 *Empowering developers with self-service capabilities*

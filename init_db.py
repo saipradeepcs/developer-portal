@@ -6,7 +6,7 @@ Run this script to create the database and initialize sample data
 
 import os
 import sys
-from app_copy import app, db
+from app import app, db
 from models import Service, ServiceEvent, init_sample_data, optimize_database
 
 def init_database():
