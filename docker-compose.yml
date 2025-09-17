@@ -1,0 +1,23 @@
+
+services:
+  dev-portal:
+    build: .
+    ports:
+      - "5001:5001"
+    environment:
+      - DEBUG=false
+      - PORT=5001
+    volumes:
+      # Persist database outside the container
+      - developer_portal_data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+# Named volume for persistent data storage
+volumes:
+  developer_portal_data:
+    driver: local

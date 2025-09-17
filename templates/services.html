@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Service Directory - Zello Developer Portal{% endblock %}
+
+{% block content %}
+    <!-- Service Directory -->
+    <div class="section">
+        <h2>📋 Service Directory</h2>
+        
+        <!-- Search and Filters -->
+        <div class="search-section">
+            <div class="search-bar">
+                <input type="text" id="searchServices" placeholder="🔍 Search services by name, owner, or language..." />
+                <button type="button" id="clearSearch">Clear</button>
+            </div>
+            
+            <div class="filters">
+                <div>
+                    <label for="ownerFilter">Filter by Owner:</label>
+                    <select id="ownerFilter">
+                        <option value="">All owners</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="languageFilter">Filter by Language:</label>
+                    <select id="languageFilter">
+                        <option value="">All languages</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="statusFilter">Filter by Status:</label>
+                    <select id="statusFilter">
+                        <option value="">All statuses</option>
+                        <option value="healthy">Healthy</option>
+                        <option value="unhealthy">Unhealthy</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services List -->
+        <div class="services-header">
+            <div class="services-count">
+                <span id="servicesCount">Loading services...</span>
+            </div>
+            <div class="view-options">
+                <button type="button" id="gridViewBtn" class="view-btn active">🔲 Grid</button>
+                <button type="button" id="listViewBtn" class="view-btn">📋 List</button>
+            </div>
+        </div>
+
+        <div id="servicesList" class="services-container grid-view"></div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination" style="display: none;">
+            <button type="button" id="prevPage">← Previous</button>
+            <span id="pageInfo">Page 1 of 1</span>
+            <button type="button" id="nextPage">Next →</button>
+        </div>
+    </div>
+
+    <!-- Service Details Modal -->
+    <div id="serviceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalServiceName">Service Details</h3>
+                <button type="button" class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Service details will be populated here -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

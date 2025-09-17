@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - Zello Developer Portal{% endblock %}
+
+{% block content %}
+    <!-- Analytics Overview -->
+    <div class="section">
+        <h2>📊 Analytics Overview</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalServicesAnalytics">-</div>
+                <div class="stat-label">Total Services</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="deployedServicesAnalytics">-</div>
+                <div class="stat-label">Deployed Services</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="healthyServicesAnalytics">-</div>
+                <div class="stat-label">Healthy Services</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="teamsCount">-</div>
+                <div class="stat-label">Teams</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="section">
+        <h2>📈 Service Distribution</h2>
+        <div class="charts-container">
+            <div class="chart-card">
+                <h3>Languages</h3>
+                <div class="chart" id="languageChart">
+                    <!-- Language distribution chart will be rendered here -->
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>Teams</h3>
+                <div class="chart" id="teamChart">
+                    <!-- Team distribution chart will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="section">
+        <h2>🕒 Recent Activity</h2>
+        <div class="activity-filters">
+            <select id="activityFilter">
+                <option value="">All Events</option>
+                <option value="created">Service Created</option>
+                <option value="deployed">Deployments</option>
+                <option value="updated">Updates</option>
+            </select>
+            <select id="activityPeriod">
+                <option value="7">Last 7 days</option>
+                <option value="30" selected>Last 30 days</option>
+                <option value="90">Last 90 days</option>
+            </select>
+        </div>
+        <div id="activityList" class="activity-list">
+            <div class="loading">Loading activity data...</div>
+        </div>
+    </div>
+
+    <!-- Recent Deployments -->
+    <div class="section">
+        <h2>🚀 Recent Deployments</h2>
+        <div id="recentDeploymentsList" class="deployments-list">
+            <div class="loading">Loading deployment history...</div>
+        </div>
+    </div>
+{% endblock %}

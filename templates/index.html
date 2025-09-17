@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Zello Developer Portal{% endblock %}
+
+{% block content %}
+    <!-- Service Registration -->
+    <div class="section">
+        <h2>📝 Register New Service</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="serviceName">Service Name:</label>
+                <input type="text" id="serviceName" placeholder="e.g., auth-service" required>
+            </div>
+            <div class="form-group">
+                <label for="owner">Owner Team:</label>
+                <input type="text" id="owner" placeholder="e.g., identity-team" required>
+            </div>
+            <div class="form-group">
+                <label for="language">Programming Language:</label>
+                <select id="language" required>
+                    <option value="">Select language...</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="java">Java</option>
+                    <option value="go">Go</option>
+                    <option value="rust">Rust</option>
+                    <option value="typescript">TypeScript</option>
+                    <option value="c#">C#</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="repo">Repository URL:</label>
+                <input type="url" id="repo" placeholder="https://github.com/example/auth-service" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description (Optional):</label>
+                <textarea id="description" placeholder="Brief description of the service" rows="2"></textarea>
+            </div>
+            <button type="submit">Register Service</button>
+        </form>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="section">
+        <h2>📊 Quick Overview</h2>
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalServices">-</div>
+                <div class="stat-label">Total Services</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="deployedServices">-</div>
+                <div class="stat-label">Deployed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="healthyServices">-</div>
+                <div class="stat-label">Healthy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="recentDeployments">-</div>
+                <div class="stat-label">Recent Deployments</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="section">
+        <h2>🕒 Recent Activity</h2>
+        <div id="recentActivity" class="activity-list">
+            <div class="loading">Loading recent activity...</div>
+        </div>
+    </div>
+
+    <!-- Deployment Simulator -->
+    <div class="section">
+        <h2>🚀 Deployment Simulator</h2>
+        <form id="deployForm">
+            <div class="form-group">
+                <label for="deployService">Service to Deploy:</label>
+                <select id="deployService" required>
+                    <option value="">Select service...</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="version">Version:</label>
+                <input type="text" id="version" placeholder="e.g., v1.2.3" required>
+            </div>
+            <button type="submit">Deploy Version</button>
+        </form>
+    </div>
+
+    <!-- Next Steps Guide -->
+    <div class="section">
+        <h2>📚 Next Steps Guide</h2>
+        <form id="nextStepsForm">
+            <div class="form-group">
+                <label for="nextStepsService">Get Next Steps for:</label>
+                <select id="nextStepsService" required>
+                    <option value="">Select service...</option>
+                </select>
+            </div>
+            <button type="submit">Get Next Steps</button>
+        </form>
+        <div id="nextStepsResult"></div>
+    </div>
+{% endblock %}
