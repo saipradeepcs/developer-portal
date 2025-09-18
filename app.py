@@ -17,7 +17,8 @@ app = Flask(__name__)
 
 # Database configuration optimized for SQLite
 basedir = os.path.abspath(os.path.dirname(__file__))
-db_path = os.path.join("/app/data", "developer_portal.db")
+data_dir = os.environ.get('DATA_DIR', basedir)
+db_path = os.path.join(data_dir, "developer_portal.db")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -40,7 +41,7 @@ def create_database():
         # Get database path for logging (use same logic as main app config)
         basedir = os.path.abspath(os.path.dirname(__file__))
         data_dir = os.environ.get('DATA_DIR', basedir)
-        db_path = os.path.join("/app/data", "developer_portal.db")
+        db_path = os.path.join(data_dir, "developer_portal.db")
         
         print(f"🔧 create_database() called")
         print(f"📂 Base directory: {basedir}")

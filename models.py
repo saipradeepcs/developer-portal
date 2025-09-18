@@ -4,8 +4,7 @@ Optimized for SQLite with proper indexing and performance considerations
 """
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import func
-from datetime import datetime, timezone
+from datetime import datetime, timedelta
 from typing import Optional, Dict, Any, List
 import uuid
 import json
@@ -27,8 +26,8 @@ class Service(db.Model):
     repo = db.Column(db.String(500), nullable=False)
     
     # Timestamps with indexes for sorting
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc), index=True)
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, index=True)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Deployment tracking
     deployed_version = db.Column(db.String(50), nullable=True)
@@ -73,7 +72,7 @@ class Service(db.Model):
         if include_status:
             # Use cached status if recent (within 5 minutes), otherwise simulate
             if (self.last_health_check and 
-                (datetime.now(datetime.timezone.utc) - self.last_health_check).seconds < 300):
+                (datetime.utcnow() - self.last_health_check).seconds < 300):
                 result['status'] = self.health_status
             else:
                 # Simulate health check (30% chance of being unhealthy)
@@ -116,16 +115,16 @@ class Service(db.Model):
     def update_deployment(self, version: str) -> None:
         """Update service deployment information"""
         self.deployed_version = version
-        self.deployed_at = datetime.now(datetime.timezone.utc)
-        self.updated_at = datetime.now(datetime.timezone.utc)
+        self.deployed_at = datetime.utcnow()
+        self.updated_at = datetime.utcnow()
         # Assume successful deployment means healthy service
         self.health_status = 'healthy'
-        self.last_health_check = datetime.now(datetime.timezone.utc)
+        self.last_health_check = datetime.utcnow()
     
     def update_health_status(self, status: str) -> None:
         """Update cached health status"""
         self.health_status = status
-        self.last_health_check = datetime.now(datetime.timezone.utc)
+        self.last_health_check = datetime.utcnow()
     
     @classmethod
     def get_owners(cls) -> List[str]:
@@ -160,7 +159,7 @@ class ServiceEvent(db.Model):
     service_id = db.Column(db.String(36), db.ForeignKey('services.id'), nullable=False)
     event_type = db.Column(db.String(50), nullable=False)  # 'created', 'deployed', 'updated', 'health_check'
     event_data = db.Column(db.Text, nullable=True)  # JSON string of event details
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     created_by = db.Column(db.String(100), nullable=True)  # User who triggered the event
     
     # Relationships
@@ -205,9 +204,9 @@ class ServiceEvent(db.Model):
     @classmethod
     def get_activity_summary(cls, days: int = 30) -> Dict[str, int]:
         """Get activity summary for the last N days"""
+        from sqlalchemy import func
         
-        
-        cutoff_date = datetime.now(datetime.timezone.utc) - datetime.timedelta(days=days)
+        cutoff_date = datetime.utcnow() - timedelta(days=days)
         
         result = db.session.query(
             cls.event_type,

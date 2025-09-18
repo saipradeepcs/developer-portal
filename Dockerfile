@@ -41,9 +41,6 @@ RUN chmod +x entrypoint.sh
 # Don't initialize database during build - do it at runtime instead
 # This ensures the database is created in the persistent volume
 
-# Run the application
-CMD ["python", "app.py"]
-
 # Use entrypoint script to handle database initialization at runtime
 ENTRYPOINT ["./entrypoint.sh"]
 
