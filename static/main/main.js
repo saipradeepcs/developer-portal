@@ -515,31 +515,13 @@ async function loadAnalyticsData() {
     if (healthyEl) healthyEl.textContent = summary.healthy || 0;
     if (teamsEl) teamsEl.textContent = Object.keys(data.team_distribution || {}).length;
 
-    // Update charts (simplified version)
-    updateChart('languageChart', data.language_distribution || {});
-    updateChart('teamChart', data.team_distribution || {});
+    // Charts removed from analytics page
 
     // Update activity
     updateActivityList(data.recent_activity || []);
 }
 
-function updateChart(chartId, data) {
-    const chartElement = document.getElementById(chartId);
-    if (!chartElement) return;
-
-    const entries = Object.entries(data);
-    if (entries.length === 0) {
-        chartElement.innerHTML = '<div class="loading">No data available</div>';
-        return;
-    }
-
-    chartElement.innerHTML = entries.map(([key, value]) => `
-        <div class="chart-item">
-            <span class="chart-label">${key}</span>
-            <span class="chart-value">${value}</span>
-        </div>
-    `).join('');
-}
+// updateChart removed
 
 function updateActivityList(activities) {
     const activityList = document.getElementById('activityList');
