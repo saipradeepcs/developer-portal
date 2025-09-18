@@ -4,6 +4,7 @@ Optimized for SQLite with proper indexing and performance considerations
 """
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 from datetime import datetime, timezone
 from typing import Optional, Dict, Any, List
 import uuid
@@ -26,8 +27,8 @@ class Service(db.Model):
     repo = db.Column(db.String(500), nullable=False)
     
     # Timestamps with indexes for sorting
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, index=True)
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc), index=True)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
     
     # Deployment tracking
     deployed_version = db.Column(db.String(50), nullable=True)
@@ -159,7 +160,7 @@ class ServiceEvent(db.Model):
     service_id = db.Column(db.String(36), db.ForeignKey('services.id'), nullable=False)
     event_type = db.Column(db.String(50), nullable=False)  # 'created', 'deployed', 'updated', 'health_check'
     event_data = db.Column(db.Text, nullable=True)  # JSON string of event details
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
     created_by = db.Column(db.String(100), nullable=True)  # User who triggered the event
     
     # Relationships
@@ -204,7 +205,7 @@ class ServiceEvent(db.Model):
     @classmethod
     def get_activity_summary(cls, days: int = 30) -> Dict[str, int]:
         """Get activity summary for the last N days"""
-        from sqlalchemy import func
+        
         
         cutoff_date = datetime.now(datetime.timezone.utc) - datetime.timedelta(days=days)
         
